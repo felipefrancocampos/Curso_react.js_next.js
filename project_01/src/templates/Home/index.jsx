@@ -1,11 +1,10 @@
-import { Component } from 'react';
-
 import './styles.css';
 
+import { Component } from 'react';
 import { Posts } from '../../components/Posts';
 import { loadPosts } from '../../utils/load-posts'
 import { Button } from '../../components/Button';
-import { TextInput } from '../../components/TextInput'
+import { TextInput } from '../../components/TextInput';
 
 export class Home extends Component {
   state = {
@@ -16,16 +15,18 @@ export class Home extends Component {
     searchValue: ''
   };
 
-  async componentDidMount() {
-    await this.loadPosts();
+  componentDidMount() {
+    this.loadPosts();
   }
 
   loadPosts = async () => {
     const { page, postsPerPage } = this.state;
 
     const postsAndPhotos = await loadPosts();
+    
     this.setState({
-      posts: postsAndPhotos.slice(page, postsPerPage),
+      ...this.state,
+      posts: postsAndPhotos.slice(page, page + postsPerPage),
       allPosts: postsAndPhotos,
     });
   }
