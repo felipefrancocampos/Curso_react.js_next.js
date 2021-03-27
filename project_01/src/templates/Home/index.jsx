@@ -1,17 +1,58 @@
+import { Component } from 'react';
+
 import './styles.css';
 
-import { Component } from 'react';
 import { Posts } from '../../components/Posts';
 import { loadPosts } from '../../utils/load-posts'
 import { Button } from '../../components/Button';
 import { TextInput } from '../../components/TextInput';
 
-export class Home extends Component {
+export const Home = () => {
+  const [posts, setPosts] = useState([]);
+  const [allPosts, setallPosts] = useState([]);
+  const [page, setPage] = useState(0);
+  const [postsPerPage, setPostsPerPage] = useState(10);
+  const [searchValue, setSearchValue] = useState('');
+
+  const noMorePosts = page + postsPerPage >= allPosts.length;
+
+  return (
+    <section className="container">
+      <div class="search-container">
+        {!!searchValue && (
+          <h1>Search value: {searchValue}</h1>
+        )}
+          
+        <TextInput searchValue={searchValue} handleChange={this.handleChange}/>
+      </div>
+
+      {filteredPosts.length > 0 && (        
+        <Posts posts={filteredPosts} />     
+      )}
+
+      {filteredPosts.length === 0 && (      
+        <p>Não existem posts</p>          
+      )}
+          
+      <div className="button-container">
+        {!searchValue && (
+          <Button
+            text="Load more posts"
+            onClick={this.loadMorePosts}
+            disabled={noMorePosts}
+          />
+        )}
+      </div>
+    </section>
+  );
+}
+
+export class Home2 extends Component {
   state = {
     posts: [],
     allPosts: [],
     page: 0,
-    postsPerPage: 2,
+    postsPerPage: 10,
     searchValue: ''
   };
 
