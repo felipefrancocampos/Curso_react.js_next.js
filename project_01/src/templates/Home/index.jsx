@@ -12,9 +12,48 @@ export const Home = () => {
   const [allPosts, setallPosts] = useState([]);
   const [page, setPage] = useState(0);
   const [postsPerPage, setPostsPerPage] = useState(10);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState([]);
 
   const noMorePosts = page + postsPerPage >= allPosts.length;
+
+  const filteredPosts = !!searchValue ?
+  allPosts.filter(post => {
+    return post.title.toLowerCase().includes(
+      searchValue.toLowerCase()
+    )
+  })
+  : posts;
+
+  const loadPosts = async () => {
+    const { page, postsPerPage } = this.state;
+
+    const postsAndPhotos = await loadPosts();
+    this.setState({
+      posts: postsAndPhotos.slice(page, postsPerPage),
+      allPosts: postsAndPhotos,
+    });
+
+    setPosts();
+  }
+
+  const loadMorePosts = () => {
+    const {
+      page,
+      postsPerPage,
+      allPosts,
+      posts
+    } = this.state;
+    const nextPage = page + postsPerPage;
+    const nextPosts = allPosts.slice(nextPage, nextPage + postsPerPage);
+    posts.push(...nextPosts);
+
+    this.setState({ posts, page: nextPage });
+  }
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    this.setState({ searchValue : value });
+  }
 
   return (
     <section className="container">
@@ -38,7 +77,7 @@ export const Home = () => {
         {!searchValue && (
           <Button
             text="Load more posts"
-            onClick={this.loadMorePosts}
+            onClick={loadMorePosts}
             disabled={noMorePosts}
           />
         )}
@@ -47,7 +86,7 @@ export const Home = () => {
   );
 }
 
-export class Home2 extends Component {
+/* export class Home2 extends Component {
   state = {
     posts: [],
     allPosts: [],
@@ -134,4 +173,4 @@ export class Home2 extends Component {
       </section>
     );
   }
-}
+} */
