@@ -1,6 +1,7 @@
-import './styles.css';   
+import P from 'prop-types';
+import './styles.css';
 
-export const Button = ({ text, onClick, disabled }) => (
+export const Button = ({ text, onClick, disabled = false }) => (
   <button
     className='button'
     onClick={onClick}
@@ -9,3 +10,13 @@ export const Button = ({ text, onClick, disabled }) => (
     {text}
   </button>
 );
+
+Button.defaultProps = {
+  disabled: false,
+}
+
+Button.prototype = {
+  text: P.string.isRequired,
+  onClick: P.func.isRequired,
+  disabled: P.bool,
+};
