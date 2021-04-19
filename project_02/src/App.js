@@ -1,30 +1,26 @@
 import P from 'prop-types'
+import { useEffect } from 'react';
 import './App.css';
-import React, { useState, useEffect, useCallback } from 'react';
 
-const Button = React.memo(function Button({ incrementButton }) {
-  console.log('Filho, renderizou')
-  return <button onClick={() => incrementButton(100)}>+</button>
-});
-
-button.propTypes = {
-  incrementButton: P.func,
-};
 
 function App() {
-  const [counter, setCounter] = useState(0);
+  const [posts, setPosts] = useState([]);
+  console.log('Pai, renderizou!');
 
-  const incrementCounter = useCallback((num) => {
-    setCounter((c => c + num);
+  //component did mount
+  useEffect(() => {
+    fetch('https:jsonplaceholder.typicode.com/posts')
+      .then(r => r.json())
+      .then(r => setPosts(r))
   }, []);
-
-  console.log('Pai, renderizou')
 
   return (
     <div className="App">
-      <p>Teste 3</p>
-      <h1>C1: {counter}</h1>
-      <Button incrementButton={incrementCounter} />
+      {posts.map(post => {
+        return (
+          div
+        )
+      })}
     </div>
   );
 }
