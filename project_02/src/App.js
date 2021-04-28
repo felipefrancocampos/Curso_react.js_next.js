@@ -2,7 +2,7 @@ import P from 'prop-types'
 import { useEffect, useMemo, useState } from 'react';
 import './App.css';
 
-const Post = () => {
+const Post = ({ post, onClick }) => {
   console.log('Filho renderizou');
   return (
     <div key={post.id} className="posts">
@@ -18,6 +18,7 @@ Post.propTypes = {
     title: P.string,
     body: P.string,
   }),
+  onClick: P.func,
 };
 
 function App() {
@@ -28,12 +29,14 @@ function App() {
 
   //component did mount
   useEffect(() => {
-    setTimeout(() => {
       fetch('https:jsonplaceholder.typicode.com/posts')
         .then((r) => r.json())
         .then((r) => setPosts(r))
-    }, 5000);
   }, []);
+
+  const handleClick = () => {
+
+  }
 
   return (
     <div className="App">
@@ -48,7 +51,7 @@ function App() {
         return (
           posts.length > 0 &&
           posts.map((post) => {
-            return <Post key={post.id} post={post} />;
+            return <Post key={post.id} post={post} onClick={handleClick} />;
           })
         );
       }, [posts])}
