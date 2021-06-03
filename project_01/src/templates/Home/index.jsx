@@ -1,81 +1,48 @@
-import { useCallback, useEffect, useState } from 'react';
 
-import './styles.css';
+import { useEffect, useState } from 'react';
 
-import { Posts } from '../../components/Posts';
-import { loadPosts } from '../../utils/load-posts'
-import { Button } from '../../components/Button';
-import { TextInput } from '../../components/TextInput';
-
-export const Home = () => {
-  const [posts, setPosts] = useState([]);
-  const [allPosts, setAllPosts] = useState([]);
-  const [page, setPage] = useState(0);
-  const [postsPerPage] = useState(2);
-  const [searchValue, setSearchValue] = useState('');
-
-  const handleLoadPosts = useCallback(async (page, postsPerPage) => {
-    const postsAndPhotos = await loadPosts();
-
-    setPosts(postsAndPhotos.slice(page, postsPerPage));
-    setAllPosts(postsAndPhotos);
-  }, []);
+const useFetch = (url, options) => {
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    //console.log(new Date().toLocaleString('pt-BR'));
-    handleLoadPosts(0, postsPerPage);
-  }, [handleLoadPosts, postsPerPage]);
+    setLoading(true);
 
-  const loadMorePosts = () => {
-    const nextPage = page + postsPerPage;
-    const nextPosts = allPosts.slice(nextPage, nextPage + postsPerPage);
-    posts.push(...nextPosts);
+    const fetchData = async () => {
+      await new Promise(r => setTimeout(r, 3000));
 
-    setPosts(posts);
-    setPage(nextPage);
+      try {
+        const response = await fetch(url, options);
+        const jsonResult = await response.json();
+        setResult(jsonResult);
+        setLoading(false);
+      } catch (e) {
+        setLoading(false);
+        throw e;
+      }
+    }
+
+    fetchData();
+  }, [url, options]);
+
+  return [result, loading]
+};
+
+export const Home = () => {
+  const [result, loading] = useFetch('https://jsonplaceholder.typicode.com/posts', {
+    method: 'GET',
+    headers: {
+      abc: '1',
+    },
+  });
+
+  if (loading) {
+    return <p>Loading...</p>
   }
 
-  const handleChange = (e) => {
-    const { value } = e.target;
-    setSearchValue(value);
+  if (!loading && result) {
+    console.log(result);
   }
 
-  const noMorePosts = page + postsPerPage >= allPosts.length;
-  const filteredPosts = !!searchValue ?
-    allPosts.filter(post => {
-      return post.title.toLowerCase().includes(
-        searchValue.toLowerCase()
-      );
-    })
-    : posts;
-
-  return (
-    <section className="container">
-      <div className="search-container">
-        {!!searchValue && (
-          <h1>Search value: {searchValue}</h1>
-        )}
-
-      <TextInput searchValue={searchValue} handleChange={handleChange} />
-    </div>
-
-    {filteredPosts.length > 0 && (
-      <Posts posts={filteredPosts} />
-    )}
-
-    {filteredPosts.length === 0 && (
-      <p>Não existem posts =(</p>
-    )}
-
-<div className="button-container">
-        {!searchValue && (
-          <Button
-            text="Load more posts"
-            onClick={loadMorePosts}
-            disabled={noMorePosts}
-          />
-        )}
-      </div>
-    </section>
-  );
-}
+  return <h1>Oi</h1>
+};
