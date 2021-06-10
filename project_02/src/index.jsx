@@ -5,6 +5,7 @@ import { Menu } from './components/Menu';
 import './index.css';
 import { Abc } from './templates/Abc';
 import { App } from './templates/App';
+import { Page404 } from './templates/Page404';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -13,6 +14,7 @@ ReactDOM.render(
       <Switch>
         <Route path="/" component={App} exact />
         <Route path="/abc/:slug?/:id?" component={Abc} exact />
+        <Route path="*" component={Page404} />
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,
