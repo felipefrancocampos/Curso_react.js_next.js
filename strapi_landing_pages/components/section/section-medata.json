@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_section_section_medata",
+  "info": {
+    "name": "section_medata",
+    "icon": "coins"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "section_id": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "maxLength": 50,
+      "minLength": 4,
+      "regex": "^[a-zA-z]+([0-9-]*[a-zA-z]+)*$"
+    },
+    "background": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    }
+  }
+}
