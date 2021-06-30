@@ -1,5 +1,4 @@
 import * as Styled from './styles';
-
 function Home() {
   return (
     <div className="App">
@@ -9,5 +8,4 @@ function Home() {
     </div>
   );
 }
-
 export default Home;
