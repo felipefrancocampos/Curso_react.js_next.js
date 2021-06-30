@@ -3,7 +3,7 @@ function Home() {
   return (
     <div className="App">
       <Styled.Wrapper>
-        <h1>Hello</h1>
+        <Heading>O texto que eu quero</Heading>
       </Styled.Wrapper>
     </div>
   );
