@@ -1,8 +1,8 @@
 import P from 'prop-types';
 import * as Styled from './styles';
 
-export const Heading = ({ children, light = false }) => {
-  return <Styled.Title light={light}>{children}</Styled.Title>;
+export const Heading = ({ children, colorDark = true }) => {
+  return <Styled.Title colorDark={colorDark}>{children}</Styled.Title>;
 };
 
 Heading.propTypes = {
