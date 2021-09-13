@@ -11,7 +11,7 @@ export const Menu = ({ links = [], logoData }) => {
   const [visible, setVisible] = useState(false);
 
   return (
-          <>
+    <>
       <Styled.Button
         visible={visible}
         onClick={() => setVisible(true)}
@@ -36,6 +36,6 @@ export const Menu = ({ links = [], logoData }) => {
 };
 
 Menu.propTypes = {
-      ...NavLinks.propTypes,
+  ...NavLinks.propTypes,
   logoData: P.shape(LogoLink.propTypes).isRequired,
 };
